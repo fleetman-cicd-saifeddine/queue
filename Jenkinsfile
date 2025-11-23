@@ -49,6 +49,24 @@ pipeline {
             }
         }
         
+        stage('Code Quality') {
+            steps {
+                script {
+                    echo '========== STAGE: Code Quality (Queue) =========='
+                    sh '''
+                        echo "Running SonarQube analysis for queue..."
+                        /opt/sonar-scanner/bin/sonar-scanner \
+                            -Dsonar.projectKey=queue \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://localhost:9000 \
+                            -Dsonar.login=admin \
+                            -Dsonar.password=admin || true
+                        echo "Code quality analysis completed"
+                    '''
+                }
+            }
+        }
+        
         stage('Deploy') {
             steps {
                 script {
