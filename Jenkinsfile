@@ -89,7 +89,15 @@ pipeline {
                     withSonarQubeEnv('SonarQube') {
                         sh '''
                             echo "Running SonarQube analysis for queue..."
-                            /opt/sonar-scanner/bin/sonar-scanner || true
+                            cat > sonar-project.properties << 'EOF'
+sonar.projectKey=queue
+sonar.projectName=Queue Service
+sonar.projectVersion=1.0.0
+sonar.sources=.
+sonar.exclusions=node_modules/**,dist/**,.git/**,coverage/**,*.test.js
+sonar.sourceEncoding=UTF-8
+EOF
+                            /opt/sonar-scanner/bin/sonar-scanner
                             echo "Code quality analysis completed"
                         '''
                     }
