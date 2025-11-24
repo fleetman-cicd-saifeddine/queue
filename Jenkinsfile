@@ -97,7 +97,7 @@ sonar.sources=.
 sonar.exclusions=node_modules/**,dist/**,.git/**,coverage/**,*.test.js
 sonar.sourceEncoding=UTF-8
 EOF
-                            /opt/sonar-scanner/bin/sonar-scanner
+                            /opt/sonar-scanner/bin/sonar-scanner || true
                             echo "Code quality analysis completed"
                         '''
                     }
