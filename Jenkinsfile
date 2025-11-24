@@ -17,8 +17,8 @@ pipeline {
                     if ! command -v npm &> /dev/null
                     then
                         echo "npm could not be found, installing Node.js..."
-                        apt-get update -y
-                        apt-get install -y nodejs npm
+                        sudo apt-get update -y
+                        sudo apt-get install -y nodejs npm
                     fi
                     npm install
                 '''
