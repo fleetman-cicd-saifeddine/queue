@@ -116,15 +116,14 @@ pipeline {
         always {
             script {
                 echo "Pipeline execution completed"
-                // Add SonarQube link to build description
-                currentBuild.description = "🔗 <a href='${SONARQUBE_URL}'>View SonarQube Analysis</a>"
+                currentBuild.description = "SonarQube: <a href='${SONARQUBE_URL}'>View Analysis</a>"
             }
         }
         success {
-            echo "✅ Queue pipeline succeeded"
+            echo "Queue pipeline succeeded"
         }
         failure {
-            echo "❌ Queue pipeline failed"
+            echo "Queue pipeline failed"
         }
     }
 }
