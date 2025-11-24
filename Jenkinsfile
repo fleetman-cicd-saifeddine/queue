@@ -89,20 +89,8 @@ pipeline {
                     withSonarQubeEnv('SonarQube') {
                         sh '''
                             echo "Running SonarQube analysis for queue..."
-                            cat > sonar-project.properties << 'EOF'
-sonar.projectKey=queue
-sonar.projectName=Queue Service
-sonar.projectVersion=1.0.0
-sonar.sources=.
-sonar.exclusions=node_modules/**,dist/**,.git/**,coverage/**
-sonar.test.inclusions=**/*.test.js
-sonar.sourceEncoding=UTF-8
-sonar.javascript.lcov.reportPaths=coverage/lcov.info
-sonar.coverage.exclusions=**/*.test.js,node_modules/**
-sonar.qualitygate.wait=false
-sonar.qualitygate.timeout=300
-EOF
-                            /opt/sonar-scanner/bin/sonar-scanner || true
+                            /opt/sonar-scanner/bin/sonar-scanner \
+                                -Dproject.settings=sonar.properties || true
                             echo "Code quality analysis completed"
                         '''
                     }
