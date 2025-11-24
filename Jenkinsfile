@@ -133,6 +133,7 @@ pipeline {
         always {
             script {
                 echo "Pipeline execution completed"
+                currentBuild.description = "SonarQube: http://192.168.79.129:9000"
             }
         }
         success {
