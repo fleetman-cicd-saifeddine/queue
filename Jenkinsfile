@@ -18,8 +18,7 @@ pipeline {
                             -Dsonar.sources=. \
                             -Dsonar.exclusions=node_modules/**,coverage/**,*.test.js \
                             -Dsonar.host.url=http://192.168.79.129:9000 \
-                            -Dsonar.login=admin \
-                            -Dsonar.password=Saif21221936@
+                            -Dsonar.token=squ_7cea9a5d7a9f559a26f53243d82f37d68e8e78f1
                     '''
                 }
                 timeout(time: 10, unit: 'MINUTES') {
