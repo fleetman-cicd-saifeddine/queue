@@ -1,14 +1,5 @@
 pipeline {
-    agent {
-        docker { 
-            image 'node:18-alpine' 
-            args '-u root'
-        }
-    }
-    
-    environment {
-        SERVICE_NAME = 'queue'
-    }
+    agent any
     
     stages {
         stage('Checkout') {
@@ -18,10 +9,19 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Setup Environment') {
             steps {
-                echo '========== STAGE: Install Dependencies =========='
-                sh 'npm install'
+                echo '========== STAGE: Setup Environment =========='
+                sh '''
+                    # Install Node.js and npm if not already installed
+                    if ! command -v npm &> /dev/null
+                    then
+                        echo "npm could not be found, installing Node.js..."
+                        apt-get update -y
+                        apt-get install -y nodejs npm
+                    fi
+                    npm install
+                '''
             }
         }
         
@@ -36,10 +36,9 @@ pipeline {
             steps {
                 script {
                     echo '========== STAGE: Code Quality (Queue) =========='
-                    // The withSonarQubeEnv wrapper will automatically use the SonarQube configuration from Jenkins settings
                     withSonarQubeEnv('SonarQube') {
                         sh """
-                            /usr/src/app/node_modules/sonar-scanner/bin/sonar-scanner \
+                            ./node_modules/sonar-scanner/bin/sonar-scanner \
                                 -Dsonar.projectKey=queue \
                                 -Dsonar.projectName=Queue \
                                 -Dsonar.sources=. \
