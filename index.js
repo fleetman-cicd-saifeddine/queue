@@ -31,11 +31,12 @@ app.get('/api/status', (req, res) => {
 /**
  * Error handling middleware
  */
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.error('Error:', err.message);
   res.status(500).json({
     error: 'Internal Server Error',
-    message: err.message
+    message: process.env.NODE_ENV === 'production' ? 'An error occurred' : err.message
   });
 });
 

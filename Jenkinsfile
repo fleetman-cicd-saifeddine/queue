@@ -99,6 +99,8 @@ sonar.test.inclusions=**/*.test.js
 sonar.sourceEncoding=UTF-8
 sonar.javascript.lcov.reportPaths=coverage/lcov.info
 sonar.coverage.exclusions=**/*.test.js,node_modules/**
+sonar.qualitygate.wait=false
+sonar.qualitygate.timeout=300
 EOF
                             /opt/sonar-scanner/bin/sonar-scanner || true
                             echo "Code quality analysis completed"
