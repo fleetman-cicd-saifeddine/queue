@@ -86,23 +86,23 @@ pipeline {
             steps {
                 script {
                     echo '========== STAGE: Code Quality (Queue) =========='
-                    withSonarQubeEnv('SonarQube') {
+                    withSonarQubeEnv(credentialsId: 'sonarqube-token', installationName: 'SonarQube') {
                         sh '''
                             echo "Running SonarQube analysis for queue..."
-                            cat > sonar-project.properties << EOF
-sonar.projectKey=queue
-sonar.projectName=Queue Service
-sonar.projectVersion=1.0.0
-sonar.sources=.
-sonar.exclusions=node_modules/**,dist/**,.git/**,.mvn/**,target/**,coverage/**
-sonar.tests=.
-sonar.test.inclusions=**/*.test.js,**/*.spec.js
-sonar.javascript.lcov.reportPaths=coverage/lcov.info
-sonar.sourceEncoding=UTF-8
-sonar.qualitygate.wait=false
-sonar.coverage.exclusions=**/*.test.js,**/*.spec.js,node_modules/**
-EOF
-                            /opt/sonar-scanner/bin/sonar-scanner || true
+                            /opt/sonar-scanner/bin/sonar-scanner \
+                                -Dsonar.projectKey=queue \
+                                -Dsonar.projectName="Queue Service" \
+                                -Dsonar.projectVersion=1.0.0 \
+                                -Dsonar.sources=. \
+                                -Dsonar.exclusions=node_modules/**,dist/**,.git/**,.mvn/**,target/**,coverage/** \
+                                -Dsonar.tests=. \
+                                -Dsonar.test.inclusions=**/*.test.js,**/*.spec.js \
+                                -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
+                                -Dsonar.sourceEncoding=UTF-8 \
+                                -Dsonar.qualitygate.wait=false \
+                                -Dsonar.coverage.exclusions=**/*.test.js,**/*.spec.js,node_modules/** \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
+                                -Dsonar.login=${SONAR_AUTH_TOKEN} || true
                             echo "Code quality analysis completed"
                         '''
                     }
