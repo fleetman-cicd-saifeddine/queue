@@ -2,21 +2,26 @@ module.exports = {
   testEnvironment: 'node',
   collectCoverage: true,
   collectCoverageFrom: [
-    'index.js',
-    '!node_modules/**',
-    '!coverage/**'
+    '**/*.js',
+    '!**/node_modules/**',
+    '!**/dist/**',
+    '!**/coverage/**',
+    '!jest.config.js',
+    '!*.test.js'
   ],
   coverageDirectory: 'coverage',
   coverageReporters: [
     'text',
-    'text-summary',
-    'html',
     'lcov',
     'json'
   ],
   testMatch: [
-    '**/__tests__/**/*.js',
-    '**/?(*.)+(spec|test).js'
+    '**/*.test.js'
+  ],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/coverage/',
+    '/dist/'
   ],
   coverageThreshold: {
     global: {
