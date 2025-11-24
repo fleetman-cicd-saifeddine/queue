@@ -86,7 +86,7 @@ pipeline {
             steps {
                 script {
                     echo '========== STAGE: Code Quality (Queue) =========='
-                    withSonarQubeEnv(credentialsId: 'sonarqube-token', installationName: 'SonarQube') {
+                    withCredentials([string(credentialsId: 'sonarqube-credentials', variable: 'SONAR_TOKEN')]) {
                         sh '''
                             echo "Running SonarQube analysis for queue..."
                             /opt/sonar-scanner/bin/sonar-scanner \
@@ -101,8 +101,8 @@ pipeline {
                                 -Dsonar.sourceEncoding=UTF-8 \
                                 -Dsonar.qualitygate.wait=false \
                                 -Dsonar.coverage.exclusions=**/*.test.js,**/*.spec.js,node_modules/** \
-                                -Dsonar.host.url=${SONAR_HOST_URL} \
-                                -Dsonar.login=${SONAR_AUTH_TOKEN} || true
+                                -Dsonar.host.url=http://192.168.79.129:9000 \
+                                -Dsonar.login=${SONAR_TOKEN} || true
                             echo "Code quality analysis completed"
                         '''
                     }
