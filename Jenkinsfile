@@ -133,6 +133,7 @@ pipeline {
         always {
             script {
                 echo "Pipeline execution completed"
+                currentBuild.description = "SonarQube Analysis"
             }
         }
         success {
