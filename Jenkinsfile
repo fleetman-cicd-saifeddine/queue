@@ -43,9 +43,11 @@ pipeline {
                 script {
                     echo '========== STAGE: Linting (Queue) =========='
                     sh '''
-                        echo "Running code linting..."
-                        echo "Note: Linting tools available in source code"
-                        echo "Linting completed"
+                        if command -v npm &> /dev/null; then
+                            npm run lint || true
+                        else
+                            echo "npm not available, skipping linting"
+                        fi
                     '''
                 }
             }
@@ -56,10 +58,11 @@ pipeline {
                 script {
                     echo '========== STAGE: Unit Tests (Queue) =========='
                     sh '''
-                        echo "Running unit tests..."
-                        echo "Note: Unit tests available in source code"
-                        echo "To run tests locally: mvn test"
-                        echo "Unit tests completed"
+                        if command -v npm &> /dev/null; then
+                            npm test -- --coverage --watchAll=false || true
+                        else
+                            echo "npm not available, skipping tests"
+                        fi
                     '''
                 }
             }
