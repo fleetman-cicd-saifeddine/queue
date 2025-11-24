@@ -133,7 +133,7 @@ pipeline {
         always {
             script {
                 echo "Pipeline execution completed"
-                currentBuild.description = "SonarQube: http://192.168.79.129:9000"
+                currentBuild.description = "<a href='http://192.168.79.129:9000'><img src='https://www.sonarqube.org/assets/logo-31ad8c6b1b1531b1b92d53259d9056325c1ef55ce2d8b9fca4e8b1eec2298c08.svg' height='20' width='20' alt='SonarQube'/> SonarQube Analysis</a>"
             }
         }
         success {
